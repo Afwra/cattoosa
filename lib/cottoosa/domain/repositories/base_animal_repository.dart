@@ -1,7 +1,9 @@
-import '../entities/animal.dart';
+import 'package:cattoosa/cottoosa/domain/entities/animal.dart';
+import 'package:dartz/dartz.dart';
+import '../../../core/error/failures.dart';
 import '../entities/animal_info.dart';
 
 abstract class BaseAnimalRepository{
-  Future<Animal> getAnimalName();
-  Future<AnimalInfo> getAnimalInfo(String animalName);
+  Future<Either<Failure,Animal>> getAnimalName();
+  Future<Either<Failure,AnimalInfo>> getAnimalInfo(String animalName);
 }
