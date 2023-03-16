@@ -1,4 +1,4 @@
-import 'package:cattoosa/cottoosa/presentation/screens/spalsh/screen.dart';
+import 'package:cattoosa/presentation/screens/spalsh/screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

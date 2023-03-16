@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:cattoosa/core/constant/colors.dart';
-import 'package:cattoosa/cottoosa/presentation/screens/home/home.dart';
+import 'package:cattoosa/cottoosa/core/constant/colors.dart';
+import 'package:cattoosa/presentation/screens/home/home.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
