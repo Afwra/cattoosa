@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:cattoosa/Data/animalModel/animalsoundModel.dart';
 import 'package:cattoosa/core/network%20services/remote/dio_helper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +12,7 @@ class UploadfileCubit extends Cubit<UploadfileState> {
   UploadfileCubit() : super(UploadfileInitial());
 
   static UploadfileCubit get(context) => BlocProvider.of(context);
-  // filemodle? filemodle;
+  AnimalSoundModel? animalSoundModel;
   void UploadAudioFile({
     required String? file,
   }) {
