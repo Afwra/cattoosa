@@ -1,4 +1,4 @@
-import 'package:cattoosa/business%20logic/cubit/uploadfile_cubit.dart';
+import 'package:cattoosa/business%20logic/cubit/app_cubit.dart';
 import 'package:cattoosa/cottoosa/core/constant/colors.dart';
 import 'package:cattoosa/presentation/screens/details/details.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -15,15 +15,15 @@ class Homescreen extends StatefulWidget {
 class _HomescreenState extends State<Homescreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UploadFileCubit, UploadfileState>(
+    return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
-        if (state is UploadAudofileLoading) {
+        if (state is UploadAudioFileLoading) {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => DetailsScreen()));
+              builder: (BuildContext context) => const DetailsScreen()));
         }
       },
       builder: (context, state) {
-        UploadFileCubit cubit = UploadFileCubit.get(context);
+        AppCubit cubit = AppCubit.get(context);
         return Scaffold(
             backgroundColor: Mycolor.mainColor,
             appBar: AppBar(
@@ -47,7 +47,7 @@ class _HomescreenState extends State<Homescreen> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                content: Container(
+                                content: SizedBox(
                                   height:
                                       MediaQuery.of(context).size.height * 0.35,
                                   child: Column(
@@ -59,10 +59,10 @@ class _HomescreenState extends State<Homescreen> {
                                           )),
                                       const SizedBox(height: 15),
                                       Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           children: [
-                                            Container(
+                                            SizedBox(
                                               width: 30,
                                               height: 30,
                                               child: Image.asset(
@@ -79,10 +79,10 @@ class _HomescreenState extends State<Homescreen> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           children: [
-                                            Container(
+                                            SizedBox(
                                               width: 30,
                                               height: 30,
                                               child: Image.asset(
@@ -99,10 +99,10 @@ class _HomescreenState extends State<Homescreen> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           children: [
-                                            Container(
+                                            SizedBox(
                                               width: 30,
                                               height: 30,
                                               child: Image.asset(
@@ -119,10 +119,10 @@ class _HomescreenState extends State<Homescreen> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           children: [
-                                            Container(
+                                            SizedBox(
                                               width: 30,
                                               height: 30,
                                               child: Image.asset(
@@ -162,7 +162,7 @@ class _HomescreenState extends State<Homescreen> {
                           builder: (BuildContext context) =>
                               const DetailsScreen()));
                     },
-                    child: Container(
+                    child: SizedBox(
                         width: 200,
                         height: 200,
                         child: Image.asset("assets/images/record.png")),
@@ -179,26 +179,26 @@ class _HomescreenState extends State<Homescreen> {
                     onTap: () async {
                       cubit.getAudioFile();
                     },
-                    child: Center(
-                      child: Container(
+                    child: const Center(
+                      child: SizedBox(
                           width: 200,
                           height: 200,
-                          child: const Icon(
+                          child: Icon(
                             Icons.upload_file,
                             color: Color.fromARGB(255, 13, 127, 131),
                             size: 100,
                           )),
                     ),
                   ),
-                  fallback: (context) => Center(
-                    child: Container(
+                  fallback: (context) => const Center(
+                    child: SizedBox(
                         width: 200,
                         height: 200,
                         child: CircularProgressIndicator(
                           color: Colors.white,
                         )),
                   ),
-                  condition: state is! UploadAudofileLoading,
+                  condition: state is! UploadAudioFileLoading,
                 ),
                 Text('upload your Voice',
                     style: TextStyle(

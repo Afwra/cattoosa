@@ -1,10 +1,12 @@
-import 'package:cattoosa/business%20logic/cubit/uploadfile_cubit.dart';
+import 'package:cattoosa/business%20logic/cubit/app_cubit.dart';
 import 'package:cattoosa/presentation/screens/spalsh/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+import 'business logic/bloc_observer.dart';
 
+void main() {
+  Bloc.observer = MyBlocObserver();
   runApp(const MyApp());
 }
 
@@ -15,11 +17,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<UploadFileCubit>(
+        BlocProvider<AppCubit>(
             create: (context) =>
-                UploadFileCubit()),
+                AppCubit()),
       ],
-      child: BlocConsumer<UploadFileCubit, UploadfileState>(
+      child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {
           // TODO: implement listener
         },
