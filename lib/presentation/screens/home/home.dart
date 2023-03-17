@@ -1,11 +1,7 @@
-import 'dart:io';
 
 import 'package:cattoosa/business%20logic/cubit/uploadfile_cubit.dart';
-import 'package:cattoosa/core/constant/colors.dart';
 import 'package:cattoosa/cottoosa/core/constant/colors.dart';
 import 'package:cattoosa/presentation/screens/details/details.dart';
-import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +15,7 @@ class Homescreen extends StatefulWidget {
 class _HomescreenState extends State<Homescreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UploadfileCubit, UploadfileState>(
+    return BlocConsumer<UploadFileCubit, UploadfileState>(
       listener: (context, state) {
         if (state is UploadAudofileSuccess) {
           Navigator.of(context).push(MaterialPageRoute(
@@ -29,6 +25,7 @@ class _HomescreenState extends State<Homescreen> {
         }
       },
       builder: (context, state) {
+        UploadFileCubit cubit = UploadFileCubit.get(context);
         return Scaffold(
             backgroundColor: Mycolor.mainColor,
             appBar: AppBar(
@@ -181,15 +178,7 @@ class _HomescreenState extends State<Homescreen> {
                 const Spacer(),
                 GestureDetector(
                   onTap: () async {
-                    final result = await await FilePicker.platform.pickFiles();
-                    if (result != null) {
-                      final file = File(result.files.single.path!);
-                      context
-                          .read<UploadfileCubit>()
-                          .UploadAudioFile(file: result.toString());
-                    } else {
-                      // User canceled the picker
-                    }
+                    cubit.getAudioFile();
                   },
                   child: Center(
                     child: Container(

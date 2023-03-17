@@ -9,7 +9,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: '',
+        baseUrl: 'https://flask-production-5c83.up.railway.app/predict',
         receiveDataWhenStatusError: true,
         followRedirects: false,
         validateStatus: (status) {

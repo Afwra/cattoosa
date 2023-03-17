@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
+
   runApp(const MyApp());
 }
 
@@ -14,11 +15,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<UploadfileCubit>(
+        BlocProvider<UploadFileCubit>(
             create: (context) =>
-                UploadfileCubit()..UploadAudioFile(file: 'file')),
+                UploadFileCubit()),
       ],
-      child: BlocConsumer<UploadfileCubit, UploadfileState>(
+      child: BlocConsumer<UploadFileCubit, UploadfileState>(
         listener: (context, state) {
           // TODO: implement listener
         },
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               // title: 'Flutter Demo',
               theme: ThemeData(),
-              home: SplashScreen());
+              home: const SplashScreen());
         },
       ),
     );
