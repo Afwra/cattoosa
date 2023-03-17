@@ -14,7 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<UploadfileCubit>(create: (context) => UploadfileCubit()),
+        BlocProvider<UploadfileCubit>(
+            create: (context) =>
+                UploadfileCubit()..UploadAudioFile(file: 'file')),
       ],
       child: BlocConsumer<UploadfileCubit, UploadfileState>(
         listener: (context, state) {

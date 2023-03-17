@@ -1,4 +1,4 @@
-class animalSoundModel {
+class AnimalSoundModel {
   String? _predictedClass;
 
   animalSoundModel({String? predictedClass}) {
@@ -11,7 +11,7 @@ class animalSoundModel {
   set predictedClass(String? predictedClass) =>
       _predictedClass = predictedClass;
 
-  animalSoundModel.fromJson(Map<String, dynamic> json) {
+  AnimalSoundModel.fromJson(Map<String, dynamic> json) {
     _predictedClass = json['predicted_class'];
   }
 

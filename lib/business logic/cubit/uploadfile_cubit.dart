@@ -17,14 +17,16 @@ class UploadfileCubit extends Cubit<UploadfileState> {
     required String? file,
   }) {
     emit(UploadAudofileLoading());
-    DioHelper.postData(url: 'predict', data: {
+    DioHelper.postData(data: {
       'predicted_class': file,
-    }).then((value) {
+    }, url: '')
+        .then((value) {
       log(value.toString());
       // filemodle = filemodle.fromJson(value.data);
       log(value.data.toString());
       log(value.data['message'].toString());
       emit(UploadAudofileSuccess());
+      log('3333333333333333333333333333333333333');
     }).catchError((e) {
       emit(UploadAudofileError(e.toString()));
       log(e.toString());

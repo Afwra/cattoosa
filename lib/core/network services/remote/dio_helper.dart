@@ -1,108 +1,132 @@
-// ignore_for_file: avoid_print
+import 'dart:io';
 
+import 'package:cattoosa/core/network%20services/remote/chachhelper.dart';
 import 'package:dio/dio.dart';
 
 class DioHelper {
   static late Dio dio;
 
   static init() {
-    dio = Dio(BaseOptions(
-        baseUrl: 'https://flask-production-5c83.up.railway.app/',
-        headers: {
-          'Accept-Language': 'ar',
-          'Accept': 'application/json',
-        },
+    dio = Dio(
+      BaseOptions(
+        baseUrl: '',
         receiveDataWhenStatusError: true,
         followRedirects: false,
         validateStatus: (status) {
           return status! < 500;
-        }));
+        },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      ),
+    );
   }
 
   static Future<Response> getData({
-    required url,
-    Map<String, dynamic>? qurey,
-  }) async {
-    return await dio.get(url, queryParameters: qurey);
-  }
-
-  static Future<Response> getLoggedUserData({
-    required url,
+    required String url,
+    Map<String, dynamic>? query,
+    String lang = 'ar',
     String? token,
-    Map<String, dynamic>? qurey,
+    Options? options,
   }) async {
-    var headers = {"Authorization": (token != null) ? "Bearer $token" : ''};
+    dio.options.headers = {
+      'Authorization': token ?? '',
+      'lang': CacheHelper.getData(key: 'language') ??
+          Platform.localeName.substring(0, 2),
+    };
 
-    dio.options.headers.addAll(headers);
-
-    return await dio.get(url, queryParameters: qurey);
+    return await dio.get(
+      url,
+      queryParameters: query,
+      options: options,
+    );
   }
 
   static Future<Response> postData({
     required String url,
-    FormData? formData,
-    Map<String, dynamic>? data,
-    Map<String, dynamic>? query,
-  }) async {
-    return dio.post(
-      url,
-      queryParameters: query,
-      data: formData ?? data,
-    );
-  }
-
-  static Future<Response> postLoggedUser({
-    required String url,
-    String? token,
-    FormData? formData,
-    Map<String, dynamic>? data,
-    Map<String, dynamic>? query,
-  }) async {
-    dio.options.headers["Authorization"] = "Bearer $token";
-    return dio.post(
-      url,
-      data: formData ?? data,
-      queryParameters: query,
-    );
-  }
-
-  static Future<Response> putData({
-    required String url,
     required Map<String, dynamic> data,
     Map<String, dynamic>? query,
-    String lang = 'ar',
+    String lang = 'en',
     String? token,
+    Options? options,
   }) async {
     dio.options.headers = {
-      'lang': lang,
-      'Authorization': token ?? '',
       'Content-Type': 'application/json',
+      'lang': CacheHelper.getData(key: 'language') ??
+          Platform.localeName.substring(0, 2),
+      'Authorization': token ?? '',
     };
 
-    return dio.put(
+    return await dio.post(
       url,
       queryParameters: query,
       data: data,
+      options: options,
     );
   }
 
-  // static dioErroHandling(DioError e) {
-  //   switch (e.type) {
-  //     case DioErrorType.connectTimeout:
-  //       print("Dio connectTimeout");
-  //       break;
-  //     case DioErrorType.response:
-  //       print("Server Error ");
-  //       break;
-  //     case DioErrorType.sendTimeout:
-  //       print("dio TimeOut");
-  //       break;
-  //     case DioErrorType.receiveTimeout:
-  //       break;
-  //     case DioErrorType.cancel:
-  //       break;
-  //     case DioErrorType.other:
-  //       break;
-  //   }
-  // }
+  static Future<Response> postFormData({
+    required String url,
+    required FormData formData,
+    Map<String, dynamic>? query,
+    String lang = 'en',
+    String? token,
+    Options? options,
+  }) async {
+    dio.options.headers = {
+      'Authorization': token ?? '',
+      'lang': CacheHelper.getData(key: 'language') ??
+          Platform.localeName.substring(0, 2),
+    };
+
+    return await dio.post(
+      url,
+      queryParameters: query,
+      data: formData,
+      options: options,
+    );
+  }
+
+  /// Put Data Function
+  static Future<Response> putData({
+    required String url,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? query,
+    String lang = 'en',
+    String? token,
+  }) async {
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+      'lang': CacheHelper.getData(key: 'language') ??
+          Platform.localeName.substring(0, 2),
+      'Authorization': token ?? '',
+    };
+    return dio.put(
+      url,
+      data: (data)!,
+      queryParameters: query,
+    );
+  }
+
+  /// Delete data function
+  static Future<Response> deleteData({
+    required String url,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? query,
+    String lang = 'en',
+    String? token,
+  }) async {
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+      'lang': CacheHelper.getData(key: 'language') ??
+          Platform.localeName.substring(0, 2),
+      'Authorization': token ?? '',
+    };
+
+    return dio.delete(
+      url,
+      data: data,
+      queryParameters: query,
+    );
+  }
 }
