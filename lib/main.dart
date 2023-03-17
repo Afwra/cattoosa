@@ -1,5 +1,7 @@
+import 'package:cattoosa/business%20logic/cubit/uploadfile_cubit.dart';
 import 'package:cattoosa/presentation/screens/spalsh/screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,13 +10,24 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        // title: 'Flutter Demo',
-        theme: ThemeData(),
-        home: SplashScreen());
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<UploadfileCubit>(create: (context) => UploadfileCubit()),
+      ],
+      child: BlocConsumer<UploadfileCubit, UploadfileState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              // title: 'Flutter Demo',
+              theme: ThemeData(),
+              home: SplashScreen());
+        },
+      ),
+    );
   }
 }

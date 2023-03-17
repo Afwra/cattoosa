@@ -7,7 +7,7 @@ class DioHelper {
 
   static init() {
     dio = Dio(BaseOptions(
-        baseUrl: 'https://api.soom.net.sa/soom/api/v1/users/',
+        baseUrl: 'https://flask-production-5c83.up.railway.app/',
         headers: {
           'Accept-Language': 'ar',
           'Accept': 'application/json',

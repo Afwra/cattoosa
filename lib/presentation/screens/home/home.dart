@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cattoosa/core/constant/colors.dart';
 import 'package:cattoosa/cottoosa/core/constant/colors.dart';
 import 'package:cattoosa/presentation/screens/details/details.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class Homescreen extends StatelessWidget {
@@ -157,11 +160,18 @@ class Homescreen extends StatelessWidget {
                     fontSize: 30,
                     fontWeight: FontWeight.bold)),
             const Spacer(),
-            Center(
-              child: Container(
-                  width: 200,
-                  height: 200,
-                  child: Image.asset("assets/images/upload.png")),
+            GestureDetector(
+              onTap: () {},
+              child: Center(
+                child: Container(
+                    width: 200,
+                    height: 200,
+                    child: const Icon(
+                      Icons.upload_file,
+                      color: Color.fromARGB(255, 13, 127, 131),
+                      size: 100,
+                    )),
+              ),
             ),
             Text('upload your Voice',
                 style: TextStyle(
