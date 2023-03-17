@@ -1,7 +1,7 @@
-
 import 'package:cattoosa/business%20logic/cubit/uploadfile_cubit.dart';
 import 'package:cattoosa/cottoosa/core/constant/colors.dart';
 import 'package:cattoosa/presentation/screens/details/details.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,11 +17,9 @@ class _HomescreenState extends State<Homescreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<UploadFileCubit, UploadfileState>(
       listener: (context, state) {
-        if (state is UploadAudofileSuccess) {
+        if (state is UploadAudofileLoading) {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => DetailsScreen(
-                  // file: state.file,
-                  )));
+              builder: (BuildContext context) => DetailsScreen()));
         }
       },
       builder: (context, state) {
@@ -176,20 +174,31 @@ class _HomescreenState extends State<Homescreen> {
                         fontSize: 30,
                         fontWeight: FontWeight.bold)),
                 const Spacer(),
-                GestureDetector(
-                  onTap: () async {
-                    cubit.getAudioFile();
-                  },
-                  child: Center(
+                ConditionalBuilder(
+                  builder: (context) => GestureDetector(
+                    onTap: () async {
+                      cubit.getAudioFile();
+                    },
+                    child: Center(
+                      child: Container(
+                          width: 200,
+                          height: 200,
+                          child: const Icon(
+                            Icons.upload_file,
+                            color: Color.fromARGB(255, 13, 127, 131),
+                            size: 100,
+                          )),
+                    ),
+                  ),
+                  fallback: (context) => Center(
                     child: Container(
                         width: 200,
                         height: 200,
-                        child: const Icon(
-                          Icons.upload_file,
-                          color: Color.fromARGB(255, 13, 127, 131),
-                          size: 100,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
                         )),
                   ),
+                  condition: state is! UploadAudofileLoading,
                 ),
                 Text('upload your Voice',
                     style: TextStyle(

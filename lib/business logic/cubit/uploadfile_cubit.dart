@@ -18,13 +18,12 @@ class UploadFileCubit extends Cubit<UploadfileState> {
   static UploadFileCubit get(context) => BlocProvider.of(context);
 
   File? _audioFile;
-  void getAudioFile()async{
+  void getAudioFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['wav'],
     );
     if (result != null) {
-
       _audioFile = File(result.files.single.path.toString());
       print('audio file = ${_audioFile!.path.toString()}');
       _uploadAudio();
@@ -35,7 +34,8 @@ class UploadFileCubit extends Cubit<UploadfileState> {
   Future<void> _uploadAudio() async {
     if (_audioFile == null) return;
     emit(UploadAudofileLoading());
-    final url = Uri.parse('https://flask-production-5c83.up.railway.app/predict');
+    final url =
+        Uri.parse('https://flask-production-5c83.up.railway.app/predict');
     final request = http.MultipartRequest('POST', url);
 
     final audioBytes = await _audioFile!.readAsBytes();
