@@ -19,7 +19,7 @@ class UploadAudioFileSuccess extends AppStates {}
 class UploadAudioFileError extends AppStates {
   final String error;
 
-  UploadAudioFileError(this.error);
+  const UploadAudioFileError(this.error);
 
   @override
   List<Object> get props => [error];
@@ -31,3 +31,10 @@ class UploadAudioFileError extends AppStates {
 class GetInfoLoadingState extends AppStates{}
 class GetInfoSuccessState extends AppStates{}
 class GetInfoFailState extends AppStates{}
+
+
+class InitRecorderState extends AppStates{}
+class RecordingSuccessState extends AppStates{}
+class RecordingStopState extends AppStates{}
+
+class RecordingFailState extends AppStates{}

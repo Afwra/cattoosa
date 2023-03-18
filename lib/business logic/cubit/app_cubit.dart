@@ -3,12 +3,14 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:cattoosa/cottoosa/data/models/animal_model.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../Data/animal_info_model/animal_info_model.dart';
 
 part 'app_states.dart';
@@ -92,29 +94,54 @@ class AppCubit extends Cubit<AppStates> {
       }
   }
 
-  // void uploadAudioFile() async {
-  //   emit(UploadAudofileLoading());
-  //   List<int> audioBytes = await _audioFile!.readAsBytes();
-  //   FormData formData = FormData.fromMap({
-  //     'audio': MultipartFile.fromBytes(
-  //       audioBytes,
-  //       filename: _audioFile!.path.split('/').last,
-  //     ),
-  //   });
-  //
-  //   final response = await Dio().post(
-  //       'https://flask-production-5c83.up.railway.app/predict',
-  //       data: formData  //need to send the wav file
-  //   );
-  //   if(response.statusCode == 200){
-  //     log(response.data.toString());
-  //     log(response.data['message'].toString());
-  //     emit(UploadAudofileSuccess());
-  //   }else{
-  //     emit(UploadAudofileError(response.statusMessage.toString()));
-  //     log(response.statusMessage.toString());
-  //   }
-  //
-  //
-  // }
+
+
+  //---------------------------------------------------------------------------------------
+
+  final recorder = FlutterSoundRecorder();
+  File? audioFile;
+
+  Future initRecorder()async{
+    final status = await Permission.microphone.request();
+    if(status != PermissionStatus.granted){
+      emit(RecordingFailState());
+      throw 'Microphone permission not granted';
+    }
+    await recorder.openRecorder();
+    emit(InitRecorderState());
+  }
+
+  void disposeRecorder(){
+    recorder.closeRecorder();
+  }
+
+  Future record() async{
+    await recorder.startRecorder(numChannels: 1,toFile: 'audio',sampleRate: 22050);
+    recording = true;
+    emit(RecordingSuccessState());
+
+  }
+  Future stop() async{
+    final path =  await recorder.stopRecorder();
+    emit(RecordingStopState());
+    log(path.toString());
+    audioFile = File(path!);
+    log('audioFile contents = ${audioFile!.readAsBytes()}');
+    recording = false;
+
+  }
+
+  bool recording = false;
+  void startRecording()async{
+    if(recorder.isRecording){
+      await stop();
+    } else{
+      await record();
+    }
+
+
+  }
+
+
+
 }

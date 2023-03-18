@@ -1,6 +1,7 @@
 import 'package:cattoosa/business%20logic/cubit/app_cubit.dart';
 import 'package:cattoosa/cottoosa/core/constant/colors.dart';
 import 'package:cattoosa/presentation/screens/details/details.dart';
+import 'package:cattoosa/presentation/screens/record_screen/record_screen.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -158,9 +159,10 @@ class _HomescreenState extends State<Homescreen> {
                 Center(
                   child: InkWell(
                     onTap: () {
+                      cubit.initRecorder();
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              const DetailsScreen()));
+                              const RecordScreen()));
                     },
                     child: SizedBox(
                         width: 200,
