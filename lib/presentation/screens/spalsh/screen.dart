@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cattoosa/core/constant/colors.dart';
 import 'package:cattoosa/cottoosa/core/constant/colors.dart';
 import 'package:cattoosa/presentation/screens/home/home.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
         const Duration(seconds: 5),
         () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => Homescreen())));
+            builder: (BuildContext context) => HomeScreen())));
     super.initState();
   }
 

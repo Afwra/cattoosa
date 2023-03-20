@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:cattoosa/business%20logic/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../cottoosa/core/constant/colors.dart';
+import '../details/details.dart';
 
 class RecordScreen extends StatelessWidget {
   const RecordScreen({Key? key}) : super(key: key);
@@ -14,9 +14,14 @@ class RecordScreen extends StatelessWidget {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
         log('state is $state');
+        if (state is UploadAudioFileLoading) {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => const DetailsScreen()));
+        }
       },
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
+
         return Scaffold(
           backgroundColor: Mycolor.mainColor,
           appBar: AppBar(
@@ -29,7 +34,7 @@ class RecordScreen extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    cubit.startRecording();
+                    cubit.recordAudio();
                   },
                   child: SizedBox(
                       width: 200,

@@ -3,14 +3,16 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:cattoosa/cottoosa/data/models/animal_model.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_sound/flutter_sound.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:record/record.dart';
 import '../../Data/animal_info_model/animal_info_model.dart';
 
 part 'app_states.dart';
@@ -33,11 +35,16 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   AnimalModel? animalModel;
+  final player = AudioPlayer();
   bool loading = false;
   Future<void> _uploadAudio() async {
+    loading = true;
+
+    log('Upload Audio : ${_audioFile!.path.toString()}');
     if (_audioFile == null) return;
     emit(UploadAudioFileLoading());
-    loading = true;
+    await player.setFilePath(_audioFile!.path.toString());
+    player.play();
     final url =
         Uri.parse('https://flask-production-5c83.up.railway.app/predict');
     final request = http.MultipartRequest('POST', url);
@@ -98,49 +105,130 @@ class AppCubit extends Cubit<AppStates> {
 
   //---------------------------------------------------------------------------------------
 
-  final recorder = FlutterSoundRecorder();
-  File? audioFile;
 
+
+  final _audioRecorder = Record();
+  bool recording = false;
   Future initRecorder()async{
     final status = await Permission.microphone.request();
     if(status != PermissionStatus.granted){
       emit(RecordingFailState());
       throw 'Microphone permission not granted';
     }
-    await recorder.openRecorder();
     emit(InitRecorderState());
   }
+  void recordAudio()async{
+    if(await _audioRecorder.hasPermission()){
+      final isSupported = await _audioRecorder.isEncoderSupported(
+        AudioEncoder.wav,
+      );
+      if (kDebugMode) {
+        print('${AudioEncoder.wav.name} supported: $isSupported');
+      }
 
-  void disposeRecorder(){
-    recorder.closeRecorder();
-  }
+      if(recording == false){
+        recording = true;
+        await _audioRecorder.start(numChannels: 1,samplingRate: 22050,encoder: AudioEncoder.wav);
+        emit(RecordingSuccessState());
+      }else{
+        final path = await _audioRecorder.stop();
+        log('recording path = ${path.toString()}');
+        _audioFile = File(path.toString());
+        _uploadAudio();
+        recording = false;
+        emit(RecordingStopState());
+      }
 
-  Future record() async{
-    await recorder.startRecorder(numChannels: 1,toFile: 'audio',sampleRate: 22050);
-    recording = true;
-    emit(RecordingSuccessState());
-
-  }
-  Future stop() async{
-    final path =  await recorder.stopRecorder();
-    emit(RecordingStopState());
-    log(path.toString());
-    audioFile = File(path!);
-    log('audioFile contents = ${audioFile!.readAsBytes()}');
-    recording = false;
-
-  }
-
-  bool recording = false;
-  void startRecording()async{
-    if(recorder.isRecording){
-      await stop();
-    } else{
-      await record();
+    }else{
+      emit(RecordingFailState());
     }
-
-
   }
+
+
+
+
+
+
+
+
+  // RecorderController recorderController = RecorderController()..androidEncoder = AndroidEncoder.aac
+  // ..androidOutputFormat = AndroidOutputFormat.ogg
+  // ..sampleRate = 22050;
+  // bool recording = false;
+  //
+  //
+  //
+  //
+  // void startOrStopRecording()async{
+  //   if(recording){
+  //     recorderController.reset();
+  //     final path = await recorderController.stop(false);
+  //     if(path != null){
+  //       log('rec path = ${path.toString()}');
+  //       _audioFile = File(path);
+  //       _uploadAudio();
+  //     }
+  //     recording = false;
+  //     emit(RecordingStopState());
+  //   }
+  //   else{
+  //     Directory appDirectory = await getApplicationDocumentsDirectory();
+  //     String path = "${appDirectory.path}/recording.wav";
+  //     recording = true;
+  //     await recorderController.record(path: path);
+  //     emit(RecordingSuccessState());
+  //   }
+  // }
+
+
+
+  // FlutterSoundRecorder recorder = FlutterSoundRecorder();
+  // File? audioFile;
+  //
+  // Future initRecorder()async{
+  //   final status = await Permission.microphone.request();
+  //   if(status != PermissionStatus.granted){
+  //     emit(RecordingFailState());
+  //     throw 'Microphone permission not granted';
+  //   }
+  //   await recorder.openRecorder();
+  //   emit(InitRecorderState());
+  // }
+  //
+  // void disposeRecorder(){
+  //   recorder.closeRecorder();
+  // }
+  //
+  // Future record() async{
+  //   await recorder.startRecorder(toFile: 'audio',sampleRate: 22050,codec: Codec.defaultCodec);
+  //   recorder.openRecorder();
+  //   bool result  = await recorder.isEncoderSupported(Codec.pcm16WAV);
+  //   log('is wav supported? ${result.toString()}');
+  //   recording = true;
+  //   emit(RecordingSuccessState());
+  //
+  // }
+  // Future stop() async{
+  //   final path =  await recorder.stopRecorder();
+  //   emit(RecordingStopState());
+  //   log(path.toString());
+  //   _audioFile = File(path!);
+  //   _uploadAudio();
+  //   log('audioFile contents = ${audioFile!.readAsBytes()}');
+  //   recording = false;
+  //
+  // }
+  //
+  // bool recording = false;
+  // void startRecording()async{
+  //   if(recorder.isRecording){
+  //     await stop();
+  //   } else{
+  //     await record();
+  //   }
+  //
+  //
+  // }
 
 
 

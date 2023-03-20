@@ -38,11 +38,12 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.2
-  flutter_sound: ^9.2.13
   http: ^0.13.5
   http_parser: ^4.0.2
+  just_audio: ^0.9.32
   path: ^1.8.2
   permission_handler: ^10.2.0
+  record: ^4.4.4
   shared_preferences: ^2.0.18
 
 dev_dependencies:
