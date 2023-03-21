@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:cattoosa/Data/animal_image_model/animal_image_model.dart';
 import 'package:cattoosa/cottoosa/data/models/animal_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -68,6 +69,7 @@ class AppCubit extends Cubit<AppStates> {
       resultText = data['predicted_class'];
       animalModel = AnimalModel.fromJson(data);
       log(animalModel!.name);
+      getAnimalImage(animalModel!.name);
       loading = false;
       emit(UploadAudioFileSuccess());
     } else {
@@ -101,10 +103,39 @@ class AppCubit extends Cubit<AppStates> {
       }
   }
 
-
+  AnimalImageModel? animalImageModel;
+  bool imageLoading = false;
+  String animalImageUrl = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
+  void getAnimalImage(String name)async{
+    if(name == 'Unkown') {
+      animalImageUrl = 'https://cdn.pixabay.com/photo/2012/04/24/11/42/no-symbol-39525_960_720.png';
+      return;
+    }
+    imageLoading = true;
+    emit(GetImageLoadingState());
+    final response = await Dio().get(
+      'https://pixabay.com/api',
+      queryParameters: {
+        'key':'34613538-d7a6083f2da4cc5bc795858bb',
+        'category':'animals',
+        'safesearch':'true',
+        'q': name,
+        'editors_choice':'true'
+      },
+    );
+    if(response.statusCode == 200){
+      animalImageModel = AnimalImageModel.fromJson(response.data);
+      animalImageUrl = animalImageModel!.hits?[0].largeImageURL??'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
+      log(animalImageModel!.total.toString());
+      imageLoading = false;
+      emit(GetImageSuccessState());
+    }else{
+      log(response.statusMessage.toString());
+      emit(GetImageFailState());
+    }
+  }
 
   //---------------------------------------------------------------------------------------
-
 
 
   final _audioRecorder = Record();

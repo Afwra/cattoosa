@@ -32,6 +32,10 @@ class GetInfoLoadingState extends AppStates{}
 class GetInfoSuccessState extends AppStates{}
 class GetInfoFailState extends AppStates{}
 
+class GetImageLoadingState extends AppStates{}
+class GetImageSuccessState extends AppStates{}
+class GetImageFailState extends AppStates{}
+
 
 class InitRecorderState extends AppStates{}
 class RecordingSuccessState extends AppStates{}

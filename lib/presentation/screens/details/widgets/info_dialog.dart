@@ -28,7 +28,9 @@ class InfoDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                  'Scientific Name: ${animalInfo!.taxonomy!.scientificName}'),
+                  // 'Scientific Name: ${animalInfo!.taxonomy!.scientificName}'),
+                  animalInfo!.taxonomy!.scientificName == null?'Kingdom : ${animalInfo!.taxonomy!.kingdom}':'Scientific Name: ${animalInfo!.taxonomy!.scientificName}',
+            ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -38,17 +40,22 @@ class InfoDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                  'Type: ${animalInfo!.characteristics!.type}'),
+                  animalInfo!.characteristics!.type == null? 'Slogan: ${animalInfo!.characteristics!.slogan}' : 'Type: ${animalInfo!.characteristics!.type}',
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                  'Main Prey: ${animalInfo!.characteristics!.mainPrey}'),
+                animalInfo!.characteristics!.mainPrey == null? 'Diet: ${animalInfo!.characteristics!.diet}' : 'Main Prey: ${animalInfo!.characteristics!.mainPrey}',
+
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                  'Life Span: ${animalInfo!.characteristics!.lifespan}'),
+                animalInfo!.characteristics!.lifespan==null? 'Distinctive Feature: ${animalInfo!.characteristics!.distinctiveFeature}' : 'Life Span: ${animalInfo!.characteristics!.lifespan}',
+              ),
+
             )
           ],
         ),
