@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:cattoosa/Data/animal_image_model/animal_image_model.dart';
-import 'package:cattoosa/cottoosa/data/models/animal_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +14,7 @@ import 'package:path/path.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
 import '../../Data/animal_info_model/animal_info_model.dart';
+import '../../Data/animal_model/animal_model.dart';
 
 part 'app_states.dart';
 
@@ -44,8 +44,7 @@ class AppCubit extends Cubit<AppStates> {
     log('Upload Audio : ${_audioFile!.path.toString()}');
     if (_audioFile == null) return;
     emit(UploadAudioFileLoading());
-    await player.setFilePath(_audioFile!.path.toString());
-    player.play();
+    playAudio(_audioFile!.path.toString());
     final url =
         Uri.parse('https://flask-production-5c83.up.railway.app/predict');
     final request = http.MultipartRequest('POST', url);
@@ -68,9 +67,10 @@ class AppCubit extends Cubit<AppStates> {
       final data = json.decode(response.body);
       resultText = data['predicted_class'];
       animalModel = AnimalModel.fromJson(data);
-      log(animalModel!.name);
-      getAnimalImage(animalModel!.name);
+      log(animalModel!.predictedClass.toString());
+      getAnimalImage(animalModel!.predictedClass.toString());
       loading = false;
+      playAudio(_audioFile!.path.toString());
       emit(UploadAudioFileSuccess());
     } else {
       resultText = 'Error: ${response.statusCode}';
@@ -172,6 +172,16 @@ class AppCubit extends Cubit<AppStates> {
 
     }else{
       emit(RecordingFailState());
+    }
+  }
+
+  void playAudio(String path)async{
+    if(player.playing){
+      player.stop();
+      return;
+    }else{
+      await player.setFilePath(path);
+      player.play();
     }
   }
 

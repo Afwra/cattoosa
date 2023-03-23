@@ -1,9 +1,9 @@
 import 'dart:developer';
 
-import 'package:cattoosa/business%20logic/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../cottoosa/core/constant/colors.dart';
+import '../../../Business_Logic/cubit/app_cubit.dart';
+import '../../../core/constant/colors.dart';
 import '../details/details.dart';
 
 class RecordScreen extends StatelessWidget {
@@ -23,7 +23,7 @@ class RecordScreen extends StatelessWidget {
         AppCubit cubit = AppCubit.get(context);
 
         return Scaffold(
-          backgroundColor: Mycolor.mainColor,
+          backgroundColor: MyColor.mainColor,
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.transparent,

@@ -1,10 +1,10 @@
-import 'package:cattoosa/business%20logic/cubit/app_cubit.dart';
-import 'package:cattoosa/cottoosa/core/constant/colors.dart';
 import 'package:cattoosa/presentation/screens/details/widgets/info_dialog.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../Business_Logic/cubit/app_cubit.dart';
+import '../../../core/constant/colors.dart';
 import '../home/home.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -30,7 +30,7 @@ class DetailsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            backgroundColor: Mycolor.mainColor,
+            backgroundColor: MyColor.mainColor,
             body: ConditionalBuilder(
               condition: !cubit.loading,
               builder: (context) => Column(
@@ -51,16 +51,16 @@ class DetailsScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                  Text(cubit.animalModel!.name,
+                  Text(cubit.animalModel!.predictedClass.toString(),
                       style: TextStyle(
                           color: Colors.grey[500],
                           fontSize: 36,
                           fontWeight: FontWeight.bold)),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.15),
-                  if (cubit.animalModel!.name != 'Unkown')
+                  if (cubit.animalModel!.predictedClass.toString() != 'Unkown')
                     InkWell(
                       onTap: () {
-                        cubit.getAnimalInfo(name: cubit.animalModel!.name);
+                        cubit.getAnimalInfo(name: cubit.animalModel!.predictedClass.toString());
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -68,7 +68,7 @@ class DetailsScreen extends StatelessWidget {
                               condition: !cubit.infoLoading,
                               builder: (context) => InfoDialog(
                                   animalInfo: cubit.animalInfo,
-                                  name: cubit.animalModel!.name),
+                                  name: cubit.animalModel!.predictedClass.toString()),
                               fallback: (context) =>
                                   const Center(child:  CircularProgressIndicator()),
                             );

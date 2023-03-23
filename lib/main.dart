@@ -1,9 +1,9 @@
-import 'package:cattoosa/business%20logic/cubit/app_cubit.dart';
 import 'package:cattoosa/presentation/screens/spalsh/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'business logic/bloc_observer.dart';
+import 'Business_Logic/bloc_observer.dart';
+import 'Business_Logic/cubit/app_cubit.dart';
 
 void main() {
   Bloc.observer = MyBlocObserver();

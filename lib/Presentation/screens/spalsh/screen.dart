@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:cattoosa/cottoosa/core/constant/colors.dart';
 import 'package:cattoosa/presentation/screens/home/home.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/constant/colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Mycolor.mainColor,
+      backgroundColor: MyColor.mainColor,
       body: Column(
         children: [
           const Spacer(),
