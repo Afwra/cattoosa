@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cattoosa/Data/animal_image_model/animal_image_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
 import '../../Data/animal_info_model/animal_info_model.dart';
@@ -185,7 +187,14 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
 
-
+//----------------------------------------------------------------------------
+void getLocalAudio({required String path})async{
+  final bytes = await rootBundle.load(path);
+  final buffer = bytes.buffer;
+  final tempFile = await File('${(await getTemporaryDirectory()).path}/$path').create(recursive: true);
+  _audioFile =  await tempFile.writeAsBytes(buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes));
+  _uploadAudio();
+}
 
 
 

@@ -1,9 +1,9 @@
+import 'package:cattoosa/Presentation/screens/home/widgets/recommended_audio_dialog.dart';
 import 'package:cattoosa/presentation/screens/details/details.dart';
 import 'package:cattoosa/presentation/screens/record_screen/record_screen.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../Business_Logic/cubit/app_cubit.dart';
 import '../../../core/constant/colors.dart';
 
@@ -48,105 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return AlertDialog(
-                                content: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.35,
-                                  child: Column(
-                                    children: [
-                                      const Text('Recommended Audio',
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                            fontSize: 22,
-                                          )),
-                                      const SizedBox(height: 15),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              height: 30,
-                                              child: Image.asset(
-                                                  "assets/images/Cartoon-green-snake-on-transparent-background-PNG.png",
-                                                  fit: BoxFit.fill),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            const Text('Cobra Snake',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 22,
-                                                )),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              height: 30,
-                                              child: Image.asset(
-                                                  "assets/images/Cow_(Fleckvieh_breed)_Oeschinensee_Slaunger_2009-07-07.jpg",
-                                                  fit: BoxFit.fill),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            const Text('Cow',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 22,
-                                                )),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              height: 30,
-                                              child: Image.asset(
-                                                  "assets/images/amur-tiger-01-01.webp",
-                                                  fit: BoxFit.fill),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            const Text('Tiger',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 22,
-                                                )),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              height: 30,
-                                              child: Image.asset(
-                                                  "assets/images/Cartoon-green-snake-on-transparent-background-PNG.png",
-                                                  fit: BoxFit.fill),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            const Text('Cobra Snake',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 22,
-                                                )),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(50))),
-                              );
+                              return RecommendedAudioDialog(cubit: cubit);
                             },
                           );
                         }),
