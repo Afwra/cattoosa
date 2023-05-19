@@ -14,21 +14,23 @@ class RecommendedAudioDialog extends StatelessWidget {
       content: SizedBox(
         height:
         MediaQuery.of(context).size.height * 0.35,
-        child: Column(
-          children: [
-            const Text('Recommended Audio',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 22,
-                )),
-            const SizedBox(height: 15),
-            recommendedAudioRow(audioPath: localAudio[0].path, audioName: localAudio[0].name,),
-            recommendedAudioRow(audioPath: localAudio[1].path, audioName: localAudio[1].name,),
-            recommendedAudioRow(audioPath: localAudio[2].path, audioName: localAudio[2].name,),
-            recommendedAudioRow(audioPath: localAudio[3].path, audioName: localAudio[3].name,),
-            recommendedAudioRow(audioPath: localAudio[4].path, audioName: localAudio[4].name,),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Text('Recommended Audio',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 22,
+                  )),
+              const SizedBox(height: 15),
+              recommendedAudioRow(audioPath: localAudio[0].path, audioName: localAudio[0].name,),
+              recommendedAudioRow(audioPath: localAudio[1].path, audioName: localAudio[1].name,),
+              recommendedAudioRow(audioPath: localAudio[2].path, audioName: localAudio[2].name,),
+              recommendedAudioRow(audioPath: localAudio[3].path, audioName: localAudio[3].name,),
+              recommendedAudioRow(audioPath: localAudio[4].path, audioName: localAudio[4].name,),
 
-          ],
+            ],
+          ),
         ),
       ),
       shape: const RoundedRectangleBorder(

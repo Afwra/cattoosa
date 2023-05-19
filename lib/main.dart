@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AppCubit>(
             create: (context) =>
-                AppCubit()),
+                AppCubit()..appHasInternet()),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {

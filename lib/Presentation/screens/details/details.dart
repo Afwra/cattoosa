@@ -22,7 +22,7 @@ class DetailsScreen extends StatelessWidget {
               backgroundColor: Colors.transparent,
               leading: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreen()));
+                  cubit.goBackHome(context);
                 },
                 child: const Icon(
                   Icons.arrow_back_ios,

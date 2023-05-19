@@ -25,7 +25,7 @@ class UploadAudioFileError extends AppStates {
   List<Object> get props => [error];
 }
 
-
+class AppHomeState extends AppStates{}
 
 
 class GetInfoLoadingState extends AppStates{}
@@ -35,6 +35,9 @@ class GetInfoFailState extends AppStates{}
 class GetImageLoadingState extends AppStates{}
 class GetImageSuccessState extends AppStates{}
 class GetImageFailState extends AppStates{}
+
+class InternetState extends AppStates{}
+class NoInternetState extends AppStates{}
 
 
 class InitRecorderState extends AppStates{}

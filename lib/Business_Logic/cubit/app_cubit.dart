@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:cattoosa/Data/animal_image_model/animal_image_model.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:equatable/equatable.dart';
@@ -17,6 +19,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
 import '../../Data/animal_info_model/animal_info_model.dart';
 import '../../Data/animal_model/animal_model.dart';
+import '../../Presentation/screens/home/home.dart';
 
 part 'app_states.dart';
 
@@ -47,6 +50,7 @@ class AppCubit extends Cubit<AppStates> {
     if (_audioFile == null) return;
     emit(UploadAudioFileLoading());
     playAudio(_audioFile!.path.toString());
+    appHasInternet();
     final url =
         Uri.parse('https://flask-production-5c83.up.railway.app/predict');
     final request = http.MultipartRequest('POST', url);
@@ -76,6 +80,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(UploadAudioFileSuccess());
     } else {
       resultText = 'Error: ${response.statusCode}';
+
       emit(UploadAudioFileError(response.reasonPhrase.toString()));
     }
     log(resultText);
@@ -197,6 +202,29 @@ void getLocalAudio({required String path})async{
 }
 
 
+  Future<bool> checkInternetConnection() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      return true; // Internet connection is available
+    } else {
+      return false; // No internet connection
+    }
+  }
+void appHasInternet()async{
+    bool result = await checkInternetConnection();
+
+    if(result == false){
+      emit(NoInternetState());
+    }else{
+      emit(InternetState());
+    }
+}
+void goBackHome(BuildContext context){
+  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreen()));
+  emit(AppHomeState());
+}
 
 
 

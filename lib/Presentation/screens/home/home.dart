@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../Business_Logic/cubit/app_cubit.dart';
 import '../../../core/constant/colors.dart';
+import '../error/error_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,6 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
         if (state is UploadAudioFileLoading) {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => const DetailsScreen()));
+        }
+        else if(state is NoInternetState){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>const ErrorScreen(errorMessage: 'No Internet Connection')));
+        }
+        else if(state is UploadAudioFileError){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>ErrorScreen(errorMessage: state.error)));
+
         }
       },
       builder: (context, state) {
